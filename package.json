@@ -1,8 +1,10 @@
 {
   "name": "cqi-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "dist/index.js",
-  "bin": "dist/command.js",
+  "bin": {
+    "cqi": "dist/command.js"
+  },
   "license": "MIT",
   "description": "CQI CLI command. CQI stands for Common Queue Interface inspired by CGI.",
   "repository": {
@@ -19,7 +21,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "cqi-core": "^0.3.0",
+    "cqi-core": "^0.4.1",
     "jsonic": "^0.3.1",
     "strsplit": "^1.0.0",
     "yargs": "^14.0.0"

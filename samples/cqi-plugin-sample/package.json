@@ -1,0 +1,9 @@
+{
+  "name": "cqi-plugin-sample",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "cqi-core": "^0.4.1"
+  }
+}

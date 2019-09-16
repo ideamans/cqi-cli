@@ -25,6 +25,15 @@ export class App {
   async run(argv: any): Promise<void> {
     const cqi = CQI.instance
 
+    // Plugins
+    if (argv.plugins) {
+      const modules = argv.plugins.split(/\s*,\s*/)
+      for (let module of modules) {
+        const exports = require(module)
+        if (exports.register) exports.register(cqi)
+      }
+    }
+
     // LogLevel
     if (argv.verbose) cqi.config.logLevel = LogLevel.Verbose
     else if (argv.quiet) cqi.config.logLevel = LogLevel.Normal
@@ -36,14 +45,19 @@ export class App {
     if (argv.logger) cqi.logger = cqi.factory.loggers.create(...this.componentArgs(argv.logger))
 
     // Components
-    const listener = cqi.factory.listeners.create(...this.componentArgs(argv.listener))
-    const dispatcher = cqi.factory.dispatchers.create(...this.componentArgs(argv.dispatcher))
-    const container = cqi.factory.containers.create(...this.componentArgs(argv.container, {
-      listener,
-      dispatcher,
-    }))
+    const containers = []
+    for (let i = 0; i < (argv.containers || 1); i++) {
+      const listener = cqi.factory.listeners.create(...this.componentArgs(argv.listener))
+      const dispatcher = cqi.factory.dispatchers.create(...this.componentArgs(argv.dispatcher))
+      const container = cqi.factory.containers.create(...this.componentArgs(argv.container, {
+        listener,
+        dispatcher,
+      }))
+
+      containers.push(container)
+    }
 
     // Start container
-    await container.run()
+    await Promise.all(containers.map(c => c.run()))
   }
 }
