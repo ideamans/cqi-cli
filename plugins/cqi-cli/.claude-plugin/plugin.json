@@ -1,0 +1,13 @@
+{
+  "name": "cqi-cli",
+  "description": "Adds /cqi-usage and /cqi-install skills for running CQI queue containers — consume messages from a queue such as SQS and dispatch each one to a handler program, CGI-style.",
+  "version": "0.3.0",
+  "author": {
+    "name": "Ideamans Inc.",
+    "email": "support@ideamans.com"
+  },
+  "homepage": "https://github.com/ideamans/cqi-cli",
+  "repository": "https://github.com/ideamans/cqi-cli",
+  "license": "MIT",
+  "keywords": ["queue", "sqs", "worker", "cgi", "cli", "llm", "agent"]
+}

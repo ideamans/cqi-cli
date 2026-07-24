@@ -1,0 +1,19 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "cqi — Common Queue Interface CLI",
+  "description": "A CLI that runs a queue container: a listener takes messages from a source (AWS SQS, a REPL, or a fixed array) and a dispatcher handles each one — echoing it, piping it into a program's stdin CGI-style, or feeding a long-lived child process. Components are configured with a name plus relaxed JSON options, and npm plugin modules can register more. The full agent reference is embedded in the package behind `cqi llm`.",
+  "folders": ["llmdocs"],
+  "excludeFolders": ["plugins", ".github", "dist", "node_modules", "samples"],
+  "rules": [
+    "cqi is a foreground daemon: it runs until stopped. Never invoke it in an automated session expecting it to return — start it in the background or hand the command to the user, and say how to stop it.",
+    "Consuming a queue is destructive. A message handled by the sqs listener is removed from the queue. Never point cqi at a production queue to inspect its contents.",
+    "Components are configured as one string, `<name> <jsonic-options>`, where the options are jsonic (relaxed JSON, quotes and braces mostly optional). Quote the whole thing as a single shell argument: -d \"exec programPath: /path/to/worker\".",
+    "Built-in listeners are repl (default), sqs and array. Built-in dispatchers are echo (default), exec and stdio. Container and logger both have only `default`. Any other name must come from an npm module loaded with --plugins, and that module must already be installed where cqi runs.",
+    "The exec dispatcher runs a program once per message, so a container pointed at a busy queue is a process launcher. Confirm the programPath before starting one.",
+    "-c / --containers runs that many listener/dispatcher pairs in parallel and multiplies the load on whatever exec starts. The default of 1 is usually right.",
+    "The sqs listener passes its options straight to the AWS SDK and sqs-consumer, so queueUrl and region belong there; credentials come from the environment of the process running cqi.",
+    "--jsonic changes how incoming MESSAGES are parsed, not how component options are parsed — component options are always jsonic.",
+    "There is no JSON output mode; logs are prose and -v makes them verbose. Judge success from what the handler program did, not by parsing cqi's output.",
+    "The complete reference is embedded in the package: `cqi llm` (Markdown) or `cqi llm --format json`."
+  ]
+}
