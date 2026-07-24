@@ -1,0 +1,46 @@
+name: test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      # src/llmdocs.generated.ts is committed because tsc does not copy Markdown
+      # into dist, so the guard against drift is regenerating it here.
+      - name: Regenerate the embedded LLM reference
+        run: yarn build-llmdocs
+
+      - name: Fail if the committed reference is stale
+        run: |
+          if ! git diff --exit-code -- src/llmdocs.generated.ts; then
+            echo "::error::src/llmdocs.generated.ts is out of date. Run 'yarn build-llmdocs' and commit the result."
+            exit 1
+          fi
+
+      - name: Build
+        run: yarn build
+
+      - name: Validate the distributed plugin skills
+        run: yarn validate-plugin-skills
+
+      - name: Verify the llm subcommand renders
+        run: |
+          node dist/command.js llm | head -5
+          node dist/command.js llm --format json | head -5
+          node dist/command.js --version

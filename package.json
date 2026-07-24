@@ -1,6 +1,6 @@
 {
   "name": "cqi-cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "dist/index.js",
   "bin": {
     "cqi": "dist/command.js"
@@ -9,16 +9,19 @@
   "description": "CQI CLI command. CQI stands for Common Queue Interface inspired by CGI.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ideamans/node-cqi-cli.git"
+    "url": "git@github.com:ideamans/cqi-cli.git"
   },
-  "homepage": "https://github.com/ideamans/node-cqi-cli",
+  "homepage": "https://github.com/ideamans/cqi-cli",
   "author": "Kunihiko Miyanaga <miyanaga@ideamans.com>",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "build-llmdocs": "node scripts/build-llmdocs.js",
+    "build": "yarn build-llmdocs && tsc",
+    "validate-plugin-skills": "node scripts/validate-plugin-skills.js",
+    "test": "yarn build && yarn validate-plugin-skills",
+    "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "cqi-core": "^0.4.1",
@@ -27,6 +30,7 @@
     "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "typescript": "^3.6.2"
+    "@types/node": "^20",
+    "typescript": "^5"
   }
 }
