@@ -9,7 +9,7 @@
   "description": "CQI CLI command. CQI stands for Common Queue Interface inspired by CGI.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ideamans/cqi-cli.git"
+    "url": "git+https://github.com/ideamans/cqi-cli.git"
   },
   "homepage": "https://github.com/ideamans/cqi-cli",
   "author": "Kunihiko Miyanaga <miyanaga@ideamans.com>",

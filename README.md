@@ -47,3 +47,8 @@ gh skill install ideamans/cqi-cli/plugins/cqi-cli/skills/cqi-usage --agent copil
 See [`plugins/cqi-cli/`](plugins/cqi-cli) for the skills, and
 [ideamans/go-llm-cli-kit](https://github.com/ideamans/go-llm-cli-kit) for the
 standard they follow.
+
+## Releasing (maintainers)
+
+Bump `version` in package.json, commit, then `git tag vX.Y.Z && git push origin vX.Y.Z`.
+GitHub Actions publishes to npm with Trusted Publishing (OIDC); no token is used.
